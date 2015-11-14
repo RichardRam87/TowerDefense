@@ -3,6 +3,13 @@ using System.Collections;
 
 public class TowerBuilder : MonoBehaviour 
 {
+	private int _layerMask;
+
+	void Start()
+	{
+		_layerMask = LayerMask.GetMask ("World");
+	}
+
 	public void BuildTower(GameObject obj)
 	{
 		StopCoroutine("Build");
@@ -13,7 +20,6 @@ public class TowerBuilder : MonoBehaviour
 	{
 		bool isBuilding = true;
 	
-		// RaycastHit spawnPosition = Camera.main.ScreenPointToRay(Input.mousePosition);
 		GameObject tower = Instantiate(obj, Vector3.zero, Quaternion.identity) as GameObject;
 		TowerInputController towerInputController = tower.GetComponent<TowerInputController>();
 		TowerShoot towerShoot = tower.GetComponent<TowerShoot>();
@@ -34,27 +40,34 @@ public class TowerBuilder : MonoBehaviour
 			                                      Mathf.RoundToInt(mouseWorldPosition.y));
 
 			tower.transform.position = roundedPosition;
-			/*
-			RaycastHit2D hitInfo = Physics2D.Linecast(mouseWorldPosition, Vector2.zero);
-			Debug.Log(hitInfo);
-			if (hitInfo != null && hitInfo.transform.gameObject != tower)
-			{
-				Debug.Log(hitInfo.transform.gameObject);
-				if (hitInfo.transform.tag != "Background")
-					renderer.color = Color.red;
-				else
-					renderer.color = Color.green;
-			}
-			*/
-			if (Input.GetMouseButtonDown(0) && hitInfo != null)
+			RaycastHit2D[] hitInfo = Physics2D.RaycastAll(mouseWorldPosition, Vector2.zero, Mathf.Infinity, _layerMask);
+			bool isPlaceAbleTile = CheckForPlaceablePosition(hitInfo);
+
+			if (isPlaceAbleTile)
+				renderer.color = Color.green;
+			else
+				renderer.color = Color.red;
+		
+
+			if (Input.GetMouseButtonDown(0) && isPlaceAbleTile)
 				isBuilding = false;
 
-			yield return new WaitForSeconds(0.01f);
+			yield return new WaitForSeconds(0f);
 		}
 
 		towerInputController.enabled = true;
 		towerShoot.enabled = true;
 		towerTarget.enabled = true;
 		renderer.color = defaultColor;
+	}
+
+	private bool CheckForPlaceablePosition(RaycastHit2D[] hitInfo)
+	{
+		foreach (RaycastHit2D hit in hitInfo) 
+		{
+			if (hit.transform.tag == "PathTile")
+				return false;	
+		}
+		return true;
 	}
 }
