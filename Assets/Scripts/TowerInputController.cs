@@ -12,11 +12,10 @@ public class TowerInputController : MonoBehaviour, IPointerClickHandler
 		_isSelected = false;
 		towerPanelUI.SetActive (_isSelected);
 	}
-
+	
 	public void OnPointerClick (PointerEventData eventData)
 	{
 		_isSelected = _isSelected ? false : true;
 		towerPanelUI.SetActive (_isSelected);
-		// Debug.Log(_isSelected);
 	}
 }
