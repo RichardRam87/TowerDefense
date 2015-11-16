@@ -36,6 +36,11 @@ public class ResourceController : MonoBehaviour
 		UpdateUI ();
 	}
 
+	public bool CanAffortAmount(float amount)
+	{
+		return amount < _resource;
+	}
+
 	private void UpdateUI()
 	{
 		_resourceText.text = "Resource: " + _resource.ToString ();
