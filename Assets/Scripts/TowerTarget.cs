@@ -16,15 +16,38 @@ public class TowerTarget : MonoBehaviour
 
 	void Update () 
 	{
-		Collider2D col = Physics2D.OverlapCircle (this.transform.position, 
+		Collider2D[] colliders = Physics2D.OverlapCircleAll (this.transform.position, 
 		                                          _targettingRadius, 
 		                                          _layerMask);
-		if (col) 
+		if (colliders.Length != 0) 
 		{
-			_target = col.gameObject;
-			_targetHealth = _target.GetComponent<EnemyHealth>();
-		}
+
+			_target = FindClosestTarget(colliders);
+			_targetHealth = _target.GetComponent<EnemyHealth> ();
+		} else 
+			_target = null;
+
 	}
+
+	private GameObject FindClosestTarget(Collider2D[] colliders)
+	{
+		GameObject closestTarget = null;
+		float shortestDistance = float.MaxValue;
+		int length = colliders.Length;
+
+		for (int i = 0; i < length; i++) 
+		{
+			float distance = Vector2.Distance(this.transform.position, colliders[i].transform.position);
+
+			if (distance < shortestDistance)
+			{
+				closestTarget = colliders[i].gameObject;
+				shortestDistance = distance;
+			}
+		}
+		return closestTarget;
+	}
+
 
 	public void SetRadius(float amount)
 	{

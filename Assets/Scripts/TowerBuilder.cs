@@ -4,10 +4,12 @@ using System.Collections;
 public class TowerBuilder : MonoBehaviour 
 {
 	private int _layerMask;
+	private GameObject _towersObject;
 
 	void Start()
 	{
 		_layerMask = LayerMask.GetMask ("World");
+		_towersObject = new GameObject ("Towers");
 	}
 
 	public void BuildTower(GameObject obj)
@@ -21,6 +23,8 @@ public class TowerBuilder : MonoBehaviour
 		bool isBuilding = true;
 	
 		GameObject tower = Instantiate(obj, Vector3.zero, Quaternion.identity) as GameObject;
+		tower.transform.SetParent (_towersObject.transform);
+
 		TowerInputController towerInputController = tower.GetComponent<TowerInputController>();
 		TowerShoot towerShoot = tower.GetComponent<TowerShoot>();
 		TowerTarget towerTarget = tower.GetComponent<TowerTarget>();

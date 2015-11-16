@@ -28,19 +28,21 @@ public class WaveSpawner : MonoBehaviour
 	private List<GameObject> _activeEnemies;
 	private int _currentWave;
 	private bool _isWaveActive;
+	private bool _isDoneSpawning;
 
 	void Start()
 	{
 		_activeEnemies = new List<GameObject> ();
 		_currentWave = 0;
 		_isWaveActive = false;
+		_isDoneSpawning = true;
 	}
 
 	void Update()
 	{
 		if (_isWaveActive) 
 		{
-			if (_activeEnemies.Contains (null)) 
+			if (_activeEnemies.Contains (null) && _isDoneSpawning) 
 			{
 				for (int i = 0; i < _activeEnemies.Count; i++) 
 				{
@@ -70,6 +72,7 @@ public class WaveSpawner : MonoBehaviour
 		float spawnDelay = _waves [_currentWave].GetTimeBetweenSpawns ();
 		int counter = 0;
 		_isWaveActive = true;
+		_isDoneSpawning = false;
 
 		while (counter < waveLength) 
 		{
@@ -82,5 +85,7 @@ public class WaveSpawner : MonoBehaviour
 		_currentWave++;
 		if (_currentWave >= _waves.Length)
 			_currentWave = _waves.Length - 1;
+
+		_isDoneSpawning = true;
 	}
 }
