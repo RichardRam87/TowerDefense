@@ -40,6 +40,7 @@ public class TowerBuilder : MonoBehaviour
 			                                      Mathf.RoundToInt(mouseWorldPosition.y));
 
 			tower.transform.position = roundedPosition;
+
 			RaycastHit2D[] hitInfo = Physics2D.RaycastAll(mouseWorldPosition, Vector2.zero, Mathf.Infinity, _layerMask);
 			bool isPlaceAbleTile = CheckForPlaceablePosition(hitInfo);
 

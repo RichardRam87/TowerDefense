@@ -5,40 +5,40 @@ using System.Collections.Generic;
 [System.Serializable]
 public class Wave
 {
-	[SerializeField] private float timeBetweenSpawns;
-	[SerializeField] private GameObject[] enemies;
+	[SerializeField] private float _timeBetweenSpawns;
+	[SerializeField] private GameObject[] _enemies;
 
 	public GameObject[] GetEnemies()
 	{
-		return enemies;
+		return _enemies;
 	}
 
 	public float GetTimeBetweenSpawns()
 	{
-		return timeBetweenSpawns;
+		return _timeBetweenSpawns;
 	}
 }
 
 public class WaveSpawner : MonoBehaviour 
 {
-	[SerializeField] GameObject controlPanel;
-	[SerializeField] Transform spawnPosition;
-	[SerializeField] Wave[] waves;
+	[SerializeField] GameObject _controlPanel;
+	[SerializeField] Transform _spawnPosition;
+	[SerializeField] Wave[] _waves;
 
 	private List<GameObject> _activeEnemies;
 	private int _currentWave;
-	private bool isWaveActive;
+	private bool _isWaveActive;
 
 	void Start()
 	{
 		_activeEnemies = new List<GameObject> ();
 		_currentWave = 0;
-		isWaveActive = false;
+		_isWaveActive = false;
 	}
 
 	void Update()
 	{
-		if (isWaveActive) 
+		if (_isWaveActive) 
 		{
 			if (_activeEnemies.Contains (null)) 
 			{
@@ -50,8 +50,8 @@ public class WaveSpawner : MonoBehaviour
 
 				if (_activeEnemies.Count == 0)
 				{
-					controlPanel.SetActive(true);
-					isWaveActive = false;
+					_controlPanel.SetActive(true);
+					_isWaveActive = false;
 				}
 			}
 		}
@@ -65,22 +65,22 @@ public class WaveSpawner : MonoBehaviour
 
 	private IEnumerator SpawnEnemies()
 	{
-		GameObject[] enemyWave = waves [_currentWave].GetEnemies ();
+		GameObject[] enemyWave = _waves [_currentWave].GetEnemies ();
 		int waveLength = enemyWave.Length;
-		float spawnDelay = waves [_currentWave].GetTimeBetweenSpawns ();
+		float spawnDelay = _waves [_currentWave].GetTimeBetweenSpawns ();
 		int counter = 0;
-		isWaveActive = true;
+		_isWaveActive = true;
 
 		while (counter < waveLength) 
 		{
-			GameObject enemy = Instantiate(enemyWave[counter], spawnPosition.position, Quaternion.identity) as GameObject;
+			GameObject enemy = Instantiate(enemyWave[counter], _spawnPosition.position, Quaternion.identity) as GameObject;
 			enemy.transform.SetParent(this.transform);
 			_activeEnemies.Add(enemy);
 			counter++;
 			yield return new WaitForSeconds(spawnDelay);
 		}
 		_currentWave++;
-		if (_currentWave >= waves.Length)
-			_currentWave = waves.Length - 1;
+		if (_currentWave >= _waves.Length)
+			_currentWave = _waves.Length - 1;
 	}
 }

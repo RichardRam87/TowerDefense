@@ -50,4 +50,14 @@ public class TowerShoot : MonoBehaviour
 	{
 		_lineRenderer.enabled = false;
 	}
+
+	public void SetDamage(float amount)
+	{
+		_damage = amount;
+	}
+
+	public void SetCooldown(float amount)
+	{
+		_cooldown = amount;
+	}
 }

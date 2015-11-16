@@ -26,6 +26,11 @@ public class TowerTarget : MonoBehaviour
 		}
 	}
 
+	public void SetRadius(float amount)
+	{
+		_targettingRadius = amount;
+	}
+
 	public GameObject GetTarget()
 	{
 		if (_target != null)
