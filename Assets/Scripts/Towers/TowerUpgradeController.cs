@@ -33,10 +33,10 @@ public class TowerUpgradeController : MonoBehaviour
 
 	public void UpgradeTower()
 	{
-		float cost = upgrades [currentUpgrade].upgradeCost;
-		if (ResourceController.instance.CanAffortAmount(cost))
+		if (currentUpgrade != maxAmountOfUpgrades) 
 		{
-			if (currentUpgrade != maxAmountOfUpgrades) 
+			float cost = upgrades [currentUpgrade].upgradeCost;
+			if (ResourceController.instance.CanAffortAmount(cost))
 			{
 				ResourceController.instance.AddResource(-cost);
 				_renderer.sprite = upgrades [currentUpgrade].newSprite;
@@ -51,8 +51,10 @@ public class TowerUpgradeController : MonoBehaviour
 					// update tower UI (remove update option)
 				}
 			}
+			else
+				Debug.Log("not enough money");
 		}
 		else
-			Debug.Log("not enough money");
+			Debug.Log("Already max upgraded");
 	}
 }

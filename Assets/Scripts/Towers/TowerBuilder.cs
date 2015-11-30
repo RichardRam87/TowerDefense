@@ -8,7 +8,7 @@ public class TowerBuilder : MonoBehaviour
 
 	void Start()
 	{
-		_layerMask = LayerMask.GetMask ("World");
+		_layerMask = LayerMask.GetMask (LayerMasks.world);
 		_towersObject = new GameObject ("Towers");
 	}
 
@@ -70,7 +70,7 @@ public class TowerBuilder : MonoBehaviour
 	{
 		foreach (RaycastHit2D hit in hitInfo) 
 		{
-			if (hit.transform.tag == "PathTile")
+			if (hit.transform.tag == Tags.pathTile)
 				return false;	
 		}
 		return true;

@@ -17,7 +17,7 @@ public class TowerShoot : MonoBehaviour
 	{
 		_towerTarget = GetComponent<TowerTarget> ();
 		_lineRenderer = GetComponent<LineRenderer> ();
-		_lineRenderer.sortingLayerName = "Projectiles";
+		_lineRenderer.sortingLayerName = SortingLayers.projectiles;
 	}
 
 	void Start()

@@ -12,7 +12,7 @@ public class EnemyMovement : MonoBehaviour
 	void Awake()
 	{
 		_rb2d = GetComponent<Rigidbody2D> ();
-		PathData waypoints = GameObject.FindGameObjectWithTag ("Path").GetComponent<PathData> ();
+		PathData waypoints = GameObject.FindGameObjectWithTag (Tags.path).GetComponent<PathData> ();
 		path = new Path (waypoints.waypoints, waypoints.isLoopable);
 	}
 

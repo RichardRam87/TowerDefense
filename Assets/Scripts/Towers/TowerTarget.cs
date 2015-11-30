@@ -11,7 +11,7 @@ public class TowerTarget : MonoBehaviour
 
 	void Start()
 	{
-		_layerMask = LayerMask.GetMask ("Enemy");
+		_layerMask = LayerMask.GetMask (LayerMasks.enemy);
 	}
 
 	void Update () 
